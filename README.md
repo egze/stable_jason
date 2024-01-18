@@ -6,7 +6,7 @@
 
 It works similar like [OJSON](https://hex.pm/packages/ojson) but can output a pretty JSON string, using [Jason](https://hex.pm/packages/jason) as the underlying JSON encoder.
 
- The initial use-case for this library is to display a diff between two JSON files, where the order of keys is not important. The problem with JSON is that the order of keys is not guaranteed, so a diff between two JSON files can be very noisy. By using `StableJason` to encode the JSON files, the order of keys is deterministic, so the diff will be much more readable.
+ The initial use-case for this library is to display a diff between two JSON files. The problem with JSON is that the order of keys is not guaranteed, so a diff between two JSON files can be very noisy. By using `StableJason` to encode the JSON files, the order of keys is deterministic, so the diff will be much more readable.
 
 ## Examples
 
