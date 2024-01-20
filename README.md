@@ -31,7 +31,7 @@ Add `stable_jason` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:stable_jason, "~> 0.0.1"}
+    {:stable_jason, "~> 1.0.0"}
   ]
 end
 ```
