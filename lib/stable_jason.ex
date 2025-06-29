@@ -15,6 +15,9 @@ defmodule StableJason do
       iex> StableJason.encode(%{c: 3, b: 2, a: 1})
       {:ok, ~S|{"a":1,"b":2,"c":3}|}
 
+      iex> StableJason.encode(%{c: 3, b: 2, a: 1}, sorter: :desc)
+      {:ok, ~S|{"c":3,"b":2,"a":1}|}
+
       iex> StableJason.encode(<<0::1>>)
       {:error,
         %Protocol.UndefinedError{
@@ -24,7 +27,9 @@ defmodule StableJason do
         }}
   """
   def encode(input, opts \\ []) do
-    case Encoder.encode(input) do
+    {sorter, opts} = Keyword.pop(opts, :sorter)
+
+    case Encoder.encode(input, sorter || :asc) do
       {:ok, result} -> Jason.encode(result, opts)
       {:error, error} -> {:error, error}
     end
@@ -41,12 +46,17 @@ defmodule StableJason do
       iex> StableJason.encode!(%{a: 1})
       ~S|{"a":1}|
 
+      iex> StableJason.encode!(%{a: 1, b: 3}, sorter: :desc)
+      ~S|{"b":3,"a":1}|
+
       iex> StableJason.encode!("\\xFF")
       ** (Jason.EncodeError) invalid byte 0xFF in <<255>>
 
   """
   def encode!(input, opts \\ []) do
-    case Encoder.encode(input) do
+    {sorter, opts} = Keyword.pop(opts, :sorter)
+
+    case Encoder.encode(input, sorter || :asc) do
       {:ok, result} -> Jason.encode!(result, opts)
       {:error, error} -> raise error
     end

@@ -19,32 +19,32 @@ defmodule StableJason.Encoder do
           description: "cannot encode a bitstring to JSON"
         }}
   """
-  def encode(input) do
+  def encode(input, sorter \\ :asc) do
     case Jason.encode(input) do
-      {:ok, result} -> {:ok, encode_stable(result)}
+      {:ok, result} -> {:ok, encode_stable(result, sorter)}
       {:error, error} -> {:error, error}
     end
   end
 
-  defp encode_stable(input) when is_binary(input) do
+  defp encode_stable(input, sorter) when is_binary(input) do
     input
     |> Jason.decode!(%{objects: :ordered_objects})
-    |> do_encode_stable()
+    |> do_encode_stable(sorter)
   end
 
-  defp do_encode_stable(%Jason.OrderedObject{} = ordered_object) do
+  defp do_encode_stable(%Jason.OrderedObject{} = ordered_object, sorter) do
     stable_values =
-      for {k, v} <- List.keysort(ordered_object.values, 0) do
-        {k, do_encode_stable(v)}
+      for {k, v} <- List.keysort(ordered_object.values, 0, sorter) do
+        {k, do_encode_stable(v, sorter)}
       end
 
     %Jason.OrderedObject{values: stable_values}
   end
 
-  defp do_encode_stable(input) when is_list(input) do
+  defp do_encode_stable(input, sorter) when is_list(input) do
     input
-    |> Enum.map(&do_encode_stable/1)
+    |> Enum.map(fn i -> do_encode_stable(i, sorter) end)
   end
 
-  defp do_encode_stable(input), do: input
+  defp do_encode_stable(input, _sorter), do: input
 end

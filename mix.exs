@@ -1,14 +1,14 @@
 defmodule StableJason.MixProject do
   use Mix.Project
 
-  @version "1.0.0"
+  @version "2.0.0"
   @source_url "https://github.com/egze/stable_jason"
 
   def project do
     [
       app: :stable_jason,
       version: @version,
-      elixir: "~> 1.13",
+      elixir: "~> 1.14",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       description: description(),

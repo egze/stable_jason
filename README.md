@@ -14,13 +14,13 @@ It works similar like [OJSON](https://hex.pm/packages/ojson) but can output a pr
 StableJason.encode(%{c: 3, b: 2, a: 1})
 {:ok, ~S|{"a":1,"b":2,"c":3}|}
 
-StableJason.encode(%{c: 3, b: 2, a: 1}, pretty: true)
+StableJason.encode(%{c: 3, b: 2, a: 1}, sorter: :asc, pretty: true)
 {:ok, "{\n  \"a\": 1,\n  \"b\": 2,\n  \"c\": 3\n}"}
 
 StableJason.encode!(%{c: 3, b: 2, a: 1})
 "{\"a\":1,\"b\":2,\"c\":3}"
 
-StableJason.encode!(%{c: 3, b: 2, a: 1}, pretty: true)
+StableJason.encode!(%{c: 3, b: 2, a: 1}, sorter: :asc, pretty: true)
 "{\n  \"a\": 1,\n  \"b\": 2,\n  \"c\": 3\n}"
 ```
 
